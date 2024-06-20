@@ -1,0 +1,86 @@
+/* Reset de margenes y padding para mantener consistencia entre navegadores */
+* 
+    {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+/* Fuente y fondo de pantalla básica */
+body 
+    {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        background-image: url('NGE.jpg'); /* Reemplaza 'ruta/a/tu/imagen.jpg' con la ruta a tu imagen */
+        background-size: cover; /* Para que la imagen cubra toda la pantalla */
+        background-position: center; /* Para centrar la imagen */
+        background-repeat: no-repeat; /* Para que la imagen no se repita */
+    }
+
+/* Estilo general de la calculadora */
+.calculator 
+    {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transform: scale(0.8) translateY(20%); /* Hacer la calculadora un 20% más pequeña y bajarla un 20% */
+        width: 30%; /* Hacer la calculadora un 30% más ancha */
+    }
+
+/* Estilo de la pantalla de la calculadora */
+.calculator-display 
+    {
+        background-color: #222;
+        color: #fff;
+        text-align: right;
+        padding: 20px;
+        font-size: 2em;
+    }
+
+/* Contenedor de los botones */
+.calculator-buttons 
+    {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background-color: #ddd;
+    }
+
+/* Estilo de los botones */
+.btn 
+    {
+        background-color: #f9f9f9;
+        border: none;
+        padding: 20px;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+.btn:active 
+    {
+        background-color: #ccc;
+    }
+
+/* Estilo específico para los botones de operaciones */
+.operator 
+    {
+        background-color: rgb(25, 67, 115);
+        color: #fff;
+    }
+
+.operator:active 
+    {
+        background-color: rgb(10, 24, 40);
+    }
+
+/* Botón igual más grande */
+#equals 
+    {
+        grid-column: span 4;
+    }

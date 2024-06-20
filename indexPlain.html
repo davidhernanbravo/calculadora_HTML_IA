@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora Simple</title>
+
+        <style>
+
+            * 
+                {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+            body 
+                {
+                    font-family: 'Arial', sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    background-color: #f0f0f0;
+                    background-image: url('NGE.jpg');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+
+            .calculator 
+                {
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                    transform: scale(0.8) translateY(20%);
+                    width: 30%;
+                }
+
+            .calculator-display 
+                {
+                    background-color: #222;
+                    color: #fff;
+                    text-align: right;
+                    padding: 20px;
+                    font-size: 2em;
+                }
+
+            .calculator-buttons 
+                {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 1px;
+                    background-color: #ddd;
+                }
+
+            .btn 
+                {
+                    background-color: #f9f9f9;
+                    border: none;
+                    padding: 20px;
+                    font-size: 1.5em;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
+
+            .btn:active 
+                {
+                    background-color: #ccc;
+                }
+
+            .operator 
+                {
+                    background-color: rgb(25, 67, 115);
+                    color: #fff;
+                }
+
+            .operator:active 
+                {
+                    background-color: rgb(10, 24, 40);
+                }
+
+            #equals 
+                {
+                    grid-column: span 4;
+                }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <main class="calculator">
+
+            <header class="calculator-display" id="display">0</header>
+
+            <section class="calculator-buttons">
+
+                <button class="btn" data-value="7">7</button>
+                <button class="btn" data-value="8">8</button>
+                <button class="btn" data-value="9">9</button>
+                <button class="btn operator" data-value="/">÷</button>
+                <button class="btn" data-value="4">4</button>
+                <button class="btn" data-value="5">5</button>
+                <button class="btn" data-value="6">6</button>
+                <button class="btn operator" data-value="*">×</button>
+                <button class="btn" data-value="1">1</button>
+                <button class="btn" data-value="2">2</button>
+                <button class="btn" data-value="3">3</button>
+                <button class="btn operator" data-value="-">-</button>
+                <button class="btn" data-value="0">0</button>
+                <button class="btn" data-value=".">.</button>
+                <button class="btn" data-value="C">C</button>
+                <button class="btn operator" data-value="+">+</button>
+                <button class="btn operator" id="equals" data-value="=">=</button>
+
+            </section>
+
+        </main>
+
+        <script>
+
+            const display = document.getElementById ('display');
+            const buttons = document.querySelectorAll ('.btn');
+
+            let currentInput = '0';
+            let firstOperand = null;
+            let secondOperand = null;
+            let currentOperation = null;
+            let shouldResetScreen = false;
+
+            buttons.forEach(button => 
+                {
+                    button.addEventListener ('click', () => 
+                        {
+                            const value = button.dataset.value;
+
+                            switch (value) {
+                                case '+':
+                                case '-':
+                                case '*':
+                                case '/':
+                                    handleOperator(value);
+                                    break;
+                                case '=':
+                                    calculate();
+                                    break;
+                                case 'C':
+                                    resetCalculator();
+                                    break;
+                                default:
+                                    inputNumber(value);
+                                    break;
+                            }
+                            updateDisplay();
+                        });
+                });
+
+            function inputNumber(number) 
+                {
+                    if (shouldResetScreen) 
+                        {
+                            currentInput = number;
+                            shouldResetScreen = false;
+
+                        } else 
+                            {
+                                currentInput = currentInput === '0' ? number : currentInput + number;
+                            }
+                }
+
+            function handleOperator(operator) 
+                {
+                    if (currentOperation !== null) calculate();
+                    firstOperand = currentInput;
+                    currentOperation = operator;
+                    shouldResetScreen = true;
+                }
+
+            function calculate() 
+                {
+                    if (currentOperation === null || shouldResetScreen) return;
+                    secondOperand = currentInput;
+                    currentInput = String(operate(Number(firstOperand), Number(secondOperand), currentOperation));
+                    currentOperation = null;
+                    shouldResetScreen = true;
+                }
+
+            function operate(a, b, operator) 
+                {
+                    switch (operator) 
+                        {
+                            case '+':
+                                return a + b;
+                            case '-':
+                                return a - b;
+                            case '*':
+                                return a * b;
+                            case '/':
+                                if (b === 0) return 'Error';
+                                return a / b;
+                            default:
+                                return null;
+                        }
+                }
+
+            function updateDisplay() 
+                {
+                    display.textContent = currentInput;
+                }
+
+            function resetCalculator() 
+                {
+                    currentInput = '0';
+                    firstOperand = null;
+                    secondOperand = null;
+                    currentOperation = null;
+                    shouldResetScreen = false;
+                }
+                
+        </script>
+
+    </body>
+
+</html>
